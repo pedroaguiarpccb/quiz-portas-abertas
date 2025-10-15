@@ -147,23 +147,151 @@
 
     <script>
         const questions = [
-            { question: "Qual é a principal função da asa traseira em um carro de corrida?", answers: [ { text: "Aumentar a 'downforce' (força descendente), melhorando a aderência nas curvas.", correct: true }, { text: "Aumentar a velocidade do carro em retas.", correct: false }, { text: "Servir de freio aerodinâmico.", correct: false }, { text: "Proteger o motor de detritos.", correct: false } ]},
-            { question: "O que a equipe analisa em tempo real para prever falhas mecânicas?", answers: [ { text: "Apenas o tempo da volta.", correct: false }, { text: "Dados de telemetria (pressão, temperatura, etc.).", correct: true }, { text: "O nível de combustível no tanque.", correct: false }, { text: "O estado da carroceria.", correct: false } ]},
-            { question: "Após o carro voltar aos boxes, qual o principal item que a engenharia analisa para avaliar a performance?", answers: [ { text: "Estado emocional do piloto.", correct: false }, { text: "Pressão dos pneus.", correct: false }, { text: "Arquivo de volta (telemetria completa).", correct: true }, { text: "Arranhões na carroceria.", correct: false } ]},
-            { question: "Qual a principal diferença entre pneus 'slicks' (pista seca) e 'wet' (chuva)?", answers: [ { text: "Os de chuva são mais largos.", correct: false }, { text: "'Slicks' têm sulcos e os de chuva não.", correct: false }, { text: "Os de chuva possuem sulcos para expulsar a água.", correct: true }, { text: "Os de chuva são lisos e os 'slicks' têm ranhuras.", correct: false } ]},
-            { question: "Qual é o tipo de tração de um Porsche 911 GT3 Cup?", answers: [ { text: "Motor dianteiro, tração traseira.", correct: false }, { text: "Motor traseiro, tração dianteira.", correct: false }, { text: "Motor central, tração traseira.", correct: false }, { text: "Motor traseiro, tração traseira.", correct: true } ]},
-            { question: "Qual o top speed aproximado de um 911 GT3 Cup (992.1) em Interlagos?", answers: [ { text: "200km/h a 210km/h.", correct: false }, { text: "250km/h a 260km/h.", correct: true }, { text: "300km/h a 310km/h.", correct: false }, { text: "290km/h a 300km/h.", correct: false } ]},
-            { question: "O que é o sistema de 'Boost'?", answers: [ { text: "Aplica potência extra ao motor para ultrapassagem.", correct: true }, { text: "Reduz a altura do carro.", correct: false }, { text: "Diminui o tempo de troca de marchas.", correct: false }, { text: "Abre a asa traseira (DRS).", correct: false } ]},
-            { question: "Que tipo de transmissão o 911 GT3 Cup utiliza?", answers: [ { text: "Manual de 7 velocidades.", correct: false }, { text: "Sequencial de 6 velocidades com paddle shift.", correct: true }, { text: "PDK de dupla embreagem com 7 velocidades.", correct: false }, { text: "Automática convencional.", correct: false } ]},
-            { question: "Qual é o tipo de motor do Porsche 911 GT3 Cup?", answers: [ { text: "4 cilindros turbo", correct: false }, { text: "6 cilindros boxer aspirado", correct: true }, { text: "8 cilindros em V", correct: false }, { text: "6 cilindros boxer biturbo", correct: false } ]},
-            { question: "O que o piloto usa para mudar as marchas durante a corrida?", answers: [ { text: "Alavanca de câmbio manual.", correct: false }, { text: "O câmbio é totalmente automático.", correct: false }, { text: "Borboletas atrás do volante (paddle shift).", correct: true }, { text: "Alavanca de câmbio sequencial no console.", correct: false } ]},
-            { question: "A Porsche é uma marca de carros de qual país?", answers: [ { text: "Itália", correct: false }, { text: "Estados Unidos", correct: false }, { text: "Suíça", correct: false }, { text: "Alemanha", correct: true } ]},
-            { question: "Quantos assentos um Porsche 911 GT3 Cup pode ter?", answers: [ { text: "Quatro", correct: false }, { text: "Dois", correct: true }, { text: "Apenas o do piloto", correct: false }, { text: "Três", correct: false } ]},
-            { question: "Quem foi o campeão da Porsche Carrera Cup Brasil na temporada de 2024?", answers: [ { text: "Marçal Muller", correct: true }, { text: "Miguel Paludo", correct: false }, { text: "Enzo Elias", correct: false }, { text: "Nicolas Costa", correct: false } ]},
-            { question: "O que a engenharia busca ao aplicar cambagem negativa nas rodas?", answers: [ { text: "Maximizar o contato do pneu nas curvas.", correct: true }, { text: "Melhorar a estabilidade em retas.", correct: false }, { text: "Reduzir o arrasto aerodinâmico.", correct: false }, { text: "Diminuir o desgaste geral dos pneus.", correct: false } ]},
-            { question: "Um ajuste na asa traseira para mais 'downforce' resulta em quê?", answers: [ { text: "Aumento da velocidade máxima nas retas.", correct: false }, { text: "Mais aderência nas curvas, mas menor velocidade máxima.", correct: true }, { text: "Nenhuma alteração, é um ajuste estético.", correct: false }, { text: "Redução do consumo de combustível.", correct: false } ]},
-            { question: "Se um carro está 'saindo de frente' (understeer), qual ajuste a equipe pode fazer?", answers: [ { text: "Enrijecer a barra estabilizadora dianteira.", correct: false }, { text: "Aumentar a pressão dos pneus dianteiros.", correct: false }, { text: "Amaciar a barra dianteira ou enrijecer a traseira.", correct:true }, { text: "Diminuir o ângulo da asa traseira.", correct: false } ]}
-        ];
+    { 
+        question: "Qual é a principal função da asa traseira em um carro de corrida?", 
+        answers: [ 
+            { text: "Aumentar a 'downforce' para mais aderência nas curvas.", correct: true }, 
+            { text: "Aumentar a velocidade máxima nas retas.", correct: false }, 
+            { text: "Servir como freio aerodinâmico.", correct: false }, 
+            { text: "Proteger o motor de detritos da pista.", correct: false } 
+        ]
+    },
+    { 
+        question: "O que a equipe analisa em tempo real para prever falhas?", 
+        answers: [ 
+            { text: "Apenas o tempo de volta do piloto.", correct: false }, 
+            { text: "Dados de telemetria (pressão, temperatura, etc.).", correct: true }, 
+            { text: "O nível de combustível no tanque.", correct: false }, 
+            { text: "O estado visual da carroceria.", correct: false } 
+        ]
+    },
+    { 
+        question: "Após o carro voltar aos boxes, o que a engenharia analisa?", 
+        answers: [ 
+            { text: "O estado emocional do piloto.", correct: false }, 
+            { text: "Apenas a pressão final dos pneus.", correct: false }, 
+            { text: "O arquivo de volta (dados de telemetria).", correct: true }, 
+            { text: "Arranhões e danos na pintura.", correct: false } 
+        ]
+    },
+    { 
+        question: "Qual a diferença entre pneus 'slicks' (seco) e 'wet' (chuva)?", 
+        answers: [ 
+            { text: "Pneus de chuva são mais largos.", correct: false }, 
+            { text: "'Slicks' têm sulcos e os de chuva são lisos.", correct: false }, 
+            { text: "Pneus de chuva possuem sulcos para escoar a água.", correct: true }, 
+            { text: "Apenas a cor da faixa lateral.", correct: false } 
+        ]
+    },
+    { 
+        question: "Qual é o tipo de tração de um Porsche 911 GT3 Cup?", 
+        answers: [ 
+            { text: "Motor dianteiro, tração traseira.", correct: false }, 
+            { text: "Motor traseiro, tração dianteira.", correct: false }, 
+            { text: "Motor central, tração traseira.", correct: false }, 
+            { text: "Motor traseiro, tração traseira.", correct: true } 
+        ]
+    },
+    { 
+        question: "Qual a velocidade máxima de um 911 GT3 Cup em Interlagos?", 
+        answers: [ 
+            { text: "Aprox. 210 km/h", correct: false }, 
+            { text: "Aprox. 250 km/h", correct: false }, 
+            { text: "Aprox. 310 km/h", correct: false }, 
+            { text: "Aprox. 290 km/h", correct: true } 
+        ]
+    },
+    { 
+        question: "O que é o sistema de 'Boost' usado na categoria?", 
+        answers: [ 
+            { text: "Potência extra temporária para ultrapassar.", correct: true }, 
+            { text: "Um sistema que reduz a altura do carro.", correct: false }, 
+            { text: "Trocas de marcha mais rápidas.", correct: false }, 
+            { text: "Abertura da asa traseira para reduzir arrasto.", correct: false } 
+        ]
+    },
+    { 
+        question: "Que tipo de transmissão o 911 GT3 Cup utiliza?", 
+        answers: [ 
+            { text: "Manual de 7 velocidades.", correct: false }, 
+            { text: "Sequencial de 6 velocidades com paddle shift.", correct: true }, 
+            { text: "Automática PDK de 7 velocidades.", correct: false }, 
+            { text: "Automática convencional com conversor de torque.", correct: false } 
+        ]
+    },
+    { 
+        question: "Qual é o tipo de motor do Porsche 911 GT3 Cup?", 
+        answers: [ 
+            { text: "4 cilindros turbo", correct: false }, 
+            { text: "6 cilindros boxer aspirado", correct: true }, 
+            { text: "8 cilindros em V (V8)", correct: false }, 
+            { text: "6 cilindros boxer biturbo", correct: false } 
+        ]
+    },
+    { 
+        question: "A Porsche é uma marca de carros de qual país?", 
+        answers: [ 
+            { text: "Itália", correct: false }, 
+            { text: "Estados Unidos", correct: false }, 
+            { text: "Suíça", correct: false }, 
+            { text: "Alemanha", correct: true } 
+        ]
+    },
+    { 
+        question: "Quantos assentos um Porsche 911 GT3 Cup de corrida possui?", 
+        answers: [ 
+            { text: "Quatro", correct: false }, 
+            { text: "Dois", correct: false }, 
+            { text: "Apenas um, o do piloto.", correct: true }, 
+            { text: "Três", correct: false } 
+        ]
+    },
+    { 
+        question: "Quem foi o campeão da Porsche Carrera Cup Brasil em 2023?", 
+        answers: [ 
+            { text: "Marçal Muller", correct: false }, 
+            { text: "Miguel Paludo", correct: false }, 
+            { text: "Enzo Elias", correct: false }, 
+            { text: "Nicolas Costa", correct: true } 
+        ]
+    },
+    { 
+        question: "Para que serve a cambagem negativa nas rodas?", 
+        answers: [ 
+            { text: "Para maximizar o contato do pneu nas curvas.", correct: true }, 
+            { text: "Para melhorar a estabilidade em retas.", correct: false }, 
+            { text: "Para reduzir o arrasto do carro.", correct: false }, 
+            { text: "Para diminuir o desgaste dos pneus.", correct: false } 
+        ]
+    },
+    { 
+        question: "Como corrigir um carro que 'sai de frente' (understeer)?", 
+        answers: [ 
+            { text: "Enrijecendo a barra estabilizadora dianteira.", correct: false }, 
+            { text: "Aumentando a pressão dos pneus dianteiros.", correct: false }, 
+            { text: "Amaciando a barra dianteira ou enrijecendo a traseira.", correct: true }, 
+            { text: "Diminuindo o ângulo da asa traseira.", correct: false } 
+        ]
+    },
+    { 
+        question: "Qual é a potência máxima dos carros da Porsche Carrera Cup?", 
+        answers: [ 
+            { text: "720 CV", correct: false }, 
+            { text: "380 CV", correct: false }, 
+            { text: "510 CV", correct: true }, 
+            { text: "320 CV", correct: false } 
+        ]
+    },
+    { 
+        question: "Qual é o peso mínimo do carro sem o piloto?", 
+        answers: [ 
+            { text: "720 Kg", correct: false }, 
+            { text: "1280 Kg", correct: true }, 
+            { text: "1510 Kg", correct: false }, 
+            { text: "1740 Kg", correct: false } 
+        ]
+    }
+];
 
         const startContainer = document.getElementById('start-container');
         const quizContainer = document.getElementById('quiz-container');
