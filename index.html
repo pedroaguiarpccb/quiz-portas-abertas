@@ -17,7 +17,7 @@
             padding: 20px;
             box-sizing: border-box;
         }
-        .quiz-container {
+        .container {
             background-color: #ffffff;
             border-radius: 12px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -26,24 +26,51 @@
             overflow: hidden;
             text-align: center;
         }
-        .quiz-header {
+        .header {
             background-color: #d90000;
             color: white;
             padding: 20px;
+            position: relative;
         }
-        .quiz-header img {
-            max-width: 150px;
-            margin-bottom: 10px;
-        }
-        .quiz-header h1 {
+        .header h1 {
             margin: 0;
             font-size: 1.5em;
         }
-        .quiz-body {
+        #timer {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            font-size: 1.2em;
+            font-weight: bold;
+            background-color: rgba(0,0,0,0.2);
+            padding: 5px 10px;
+            border-radius: 6px;
+        }
+        .body-content {
             padding: 30px;
         }
-        #question-container {
-            margin-bottom: 20px;
+        #start-container h2 {
+            font-size: 1.8em;
+            margin-bottom: 15px;
+        }
+        #start-container p {
+            font-size: 1.1em;
+            line-height: 1.5;
+            margin-bottom: 25px;
+        }
+        #start-btn, #restart-btn {
+            background-color: #1877f2;
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 8px;
+            font-size: 1.2em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        #start-btn:hover, #restart-btn:hover {
+            background-color: #166fe5;
         }
         #question-text {
             font-size: 1.2em;
@@ -70,168 +97,128 @@
             transform: translateY(-2px);
         }
         .btn.correct {
-            background-color: #42b72a;
+            background-color: #42b72a !important;
             color: white;
             border-color: #42b72a;
         }
         .btn.wrong {
-            background-color: #fa383e;
+            background-color: #fa383e !important;
             color: white;
             border-color: #fa383e;
         }
-        #controls {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-top: 20px;
-        }
-        #next-btn {
-            background-color: #1877f2;
-            color: white;
-            border: none;
-            padding: 10px 30px;
-            border-radius: 8px;
-            font-size: 1.1em;
-            font-weight: bold;
-            cursor: pointer;
-        }
-        #next-btn.hide {
-            display: none;
-        }
-        #results-container {
-            padding: 30px;
-        }
         #results-container h2 {
-            font-size: 1.8em;
-            margin-bottom: 15px;
+            font-size: 2em;
+            color: #d90000;
         }
         #score-text {
-            font-size: 1.2em;
+            font-size: 1.3em;
             margin-bottom: 25px;
         }
-        #restart-btn {
-            background-color: #1877f2;
-            color: white;
-            border: none;
-            padding: 15px 40px;
-            border-radius: 8px;
-            font-size: 1.1em;
-            font-weight: bold;
-            cursor: pointer;
+        .hide {
+            display: none;
         }
     </style>
 </head>
 <body>
-    <div class="quiz-container">
-        <div class="quiz-header">
+    <div class="container">
+        <div class="header">
             <h1>Quiz de Engenharia Porsche Cup</h1>
+            <div id="timer" class="hide">03:00</div>
         </div>
         
-        <div class="quiz-body" id="quiz-body">
-            <div id="question-container">
-                <p id="question-text">Pergunta vai aqui</p>
-                <div id="answer-buttons" class="btn-grid">
-                    <button class="btn">Resposta 1</button>
-                    <button class="btn">Resposta 2</button>
-                    <button class="btn">Resposta 3</button>
-                    <button class="btn">Resposta 4</button>
-                </div>
-            </div>
-            <div id="controls">
-                <button id="next-btn" class="hide">Próxima</button>
-            </div>
+        <div class="body-content" id="start-container">
+            <h2>Bem-vindo à Competição!</h2>
+            <p>Você terá <strong>3 minutos</strong> para responder o máximo de perguntas que conseguir. Aguarde o sinal do organizador e clique em iniciar para começar!</p>
+            <button id="start-btn">Iniciar</button>
         </div>
 
-        <div id="results-container" class="hide">
-            <h2>Quiz Finalizado!</h2>
+        <div class="body-content hide" id="quiz-container">
+            <div id="question-text">Pergunta vai aqui</div>
+            <div id="answer-buttons" class="btn-grid"></div>
+        </div>
+
+        <div class="body-content hide" id="results-container">
+            <h2>Tempo Esgotado!</h2>
             <p id="score-text">Você acertou X de Y perguntas.</p>
-            <button id="restart-btn">Tentar Novamente</button>
+            <p>Mostre esta tela para o organizador!</p>
+            <button id="restart-btn">Jogar Novamente</button>
         </div>
     </div>
 
     <script>
         const questions = [
-            {
-                question: "Qual é a principal função da asa traseira em um carro de corrida, como os utilizados na Porsche Cup?",
-                answers: [
-                    { text: "Aumentar a 'downforce' (força descendente), melhorando a aderência nas curvas.", correct: true },
-                    { text: "Aumentar a velocidade do carro em retas.", correct: false },
-                    { text: "Servir de freio aerodinâmico para desacelerar o carro.", correct: false },
-                    { text: "Proteger o motor de detritos na pista.", correct: false }
-                ]
-            },
-            {
-                question: "O que a equipe de engenharia analisa em tempo real para prever falhas mecânicas?",
-                answers: [
-                    { text: "Apenas o tempo da volta.", correct: false },
-                    { text: "Dados de telemetria (pressão dos pneus, temperatura do óleo, etc.).", correct: true },
-                    { text: "O nível de combustível no tanque.", correct: false },
-                    { text: "O estado da carroceria em busca de arranhões.", correct: false }
-                ]
-            },
-            {
-                question: "Qual é a principal diferença entre os pneus 'slicks' (pista seca) e os 'wet' (chuva)?",
-                answers: [
-                    { text: "Os pneus de chuva são mais largos.", correct: false },
-                    { text: "Os pneus 'slicks' têm sulcos para drenar a água.", correct: false },
-                    { text: "Os pneus de chuva possuem sulcos para expulsar a água da pista.", correct: true },
-                    { text: "Os pneus de chuva são lisos e os 'slicks' têm ranhuras.", correct: false }
-                ]
-            },
-            {
-                question: "Qual é a configuração de motor e tração de um Porsche 911 GT3 Cup?",
-                answers: [
-                    { text: "Motor dianteiro, tração traseira.", correct: false },
-                    { text: "Motor central, tração traseira.", correct: false },
-                    { text: "Motor traseiro, tração dianteira.", correct: false },
-                    { text: "Motor traseiro, tração traseira.", correct: true }
-                ]
-            },
-            {
-                question: "O que a equipe busca ao aplicar cambagem negativa nas rodas?",
-                answers: [
-                    { text: "Melhorar a estabilidade em retas.", correct: false },
-                    { text: "Maximizar a área de contato do pneu com o asfalto durante as curvas.", correct: true },
-                    { text: "Diminuir o desgaste geral dos pneus.", correct: false },
-                    { text: "Reduzir o arrasto aerodinâmico.", correct: false }
-                ]
-            },
-            {
-                question: "Se um piloto reclama que o carro está 'saindo de frente' (understeer), qual ajuste a equipe pode fazer?",
-                answers: [
-                    { text: "Enrijecer a barra estabilizadora dianteira.", correct: false },
-                    { text: "Aumentar a pressão dos pneus dianteiros.", correct: false },
-                    { text: "Amaciar a barra estabilizadora dianteira ou enrijecer a traseira.", correct: true },
-                    { text: "Diminuir o ângulo da asa traseira.", correct: false }
-                ]
-            }
+            { question: "Qual é a principal função da asa traseira em um carro de corrida?", answers: [ { text: "Aumentar a 'downforce' (força descendente), melhorando a aderência nas curvas.", correct: true }, { text: "Aumentar a velocidade do carro em retas.", correct: false }, { text: "Servir de freio aerodinâmico.", correct: false }, { text: "Proteger o motor de detritos.", correct: false } ]},
+            { question: "O que a equipe analisa em tempo real para prever falhas mecânicas?", answers: [ { text: "Apenas o tempo da volta.", correct: false }, { text: "Dados de telemetria (pressão, temperatura, etc.).", correct: true }, { text: "O nível de combustível no tanque.", correct: false }, { text: "O estado da carroceria.", correct: false } ]},
+            { question: "Após o carro voltar aos boxes, qual o principal item que a engenharia analisa para avaliar a performance?", answers: [ { text: "Estado emocional do piloto.", correct: false }, { text: "Pressão dos pneus.", correct: false }, { text: "Arquivo de volta (telemetria completa).", correct: true }, { text: "Arranhões na carroceria.", correct: false } ]},
+            { question: "Qual a principal diferença entre pneus 'slicks' (pista seca) e 'wet' (chuva)?", answers: [ { text: "Os de chuva são mais largos.", correct: false }, { text: "'Slicks' têm sulcos e os de chuva não.", correct: false }, { text: "Os de chuva possuem sulcos para expulsar a água.", correct: true }, { text: "Os de chuva são lisos e os 'slicks' têm ranhuras.", correct: false } ]},
+            { question: "Qual é o tipo de tração de um Porsche 911 GT3 Cup?", answers: [ { text: "Motor dianteiro, tração traseira.", correct: false }, { text: "Motor traseiro, tração dianteira.", correct: false }, { text: "Motor central, tração traseira.", correct: false }, { text: "Motor traseiro, tração traseira.", correct: true } ]},
+            { question: "Qual o top speed aproximado de um 911 GT3 Cup (992.1) em Interlagos?", answers: [ { text: "200km/h a 210km/h.", correct: false }, { text: "240km/h a 250km/h.", correct: false }, { text: "300km/h a 310km/h.", correct: false }, { text: "290km/h a 300km/h.", correct: true } ]},
+            { question: "O que é o sistema de 'Boost'?", answers: [ { text: "Aplica potência extra ao motor para ultrapassagem.", correct: true }, { text: "Reduz a altura do carro.", correct: false }, { text: "Diminui o tempo de troca de marchas.", correct: false }, { text: "Abre a asa traseira (DRS).", correct: false } ]},
+            { question: "Que tipo de transmissão o 911 GT3 Cup utiliza?", answers: [ { text: "Manual de 7 velocidades.", correct: false }, { text: "Sequencial de 6 velocidades com paddle shift.", correct: true }, { text: "PDK de dupla embreagem com 7 velocidades.", correct: false }, { text: "Automática convencional.", correct: false } ]},
+            { question: "Qual é o tipo de motor do Porsche 911 GT3 Cup?", answers: [ { text: "4 cilindros turbo", correct: false }, { text: "6 cilindros boxer aspirado", correct: true }, { text: "8 cilindros em V", correct: false }, { text: "6 cilindros boxer biturbo", correct: false } ]},
+            { question: "O que o piloto usa para mudar as marchas durante a corrida?", answers: [ { text: "Alavanca de câmbio manual.", correct: false }, { text: "O câmbio é totalmente automático.", correct: false }, { text: "Borboletas atrás do volante (paddle shift).", correct: true }, { text: "Alavanca de câmbio sequencial no console.", correct: false } ]},
+            { question: "A Porsche é uma marca de carros de qual país?", answers: [ { text: "Itália", correct: false }, { text: "Estados Unidos", correct: false }, { text: "Suíça", correct: false }, { text: "Alemanha", correct: true } ]},
+            { question: "Quantos assentos um Porsche 911 GT3 Cup pode ter?", answers: [ { text: "Quatro", correct: false }, { text: "Dois", correct: false }, { text: "Apenas o do piloto", correct: true }, { text: "Três", correct: false } ]},
+            { question: "Quem foi o campeão da Porsche Carrera Cup Brasil na temporada de 2023?", answers: [ { text: "Marçal Muller", correct: false }, { text: "Miguel Paludo", correct: false }, { text: "Enzo Elias", correct: false }, { text: "Nicolas Costa", correct: true } ]},
+            { question: "O que a engenharia busca ao aplicar cambagem negativa nas rodas?", answers: [ { text: "Maximizar o contato do pneu nas curvas.", correct: true }, { text: "Melhorar a estabilidade em retas.", correct: false }, { text: "Reduzir o arrasto aerodinâmico.", correct: false }, { text: "Diminuir o desgaste geral dos pneus.", correct: false } ]},
+            { question: "Um ajuste na asa traseira para mais 'downforce' resulta em quê?", answers: [ { text: "Aumento da velocidade máxima nas retas.", correct: false }, { text: "Mais aderência nas curvas, mas menor velocidade máxima.", correct: true }, { text: "Nenhuma alteração, é um ajuste estético.", correct: false }, { text: "Redução do consumo de combustível.", correct: false } ]},
+            { question: "Se um carro está 'saindo de frente' (understeer), qual ajuste a equipe pode fazer?", answers: [ { text: "Enrijecer a barra estabilizadora dianteira.", correct: false }, { text: "Aumentar a pressão dos pneus dianteiros.", correct: false }, { text: "Amaciar a barra dianteira ou enrijecer a traseira.", correct:true }, { text: "Diminuir o ângulo da asa traseira.", correct: false } ]}
         ];
 
-        const questionContainer = document.getElementById('question-container');
+        const startContainer = document.getElementById('start-container');
+        const quizContainer = document.getElementById('quiz-container');
+        const resultsContainer = document.getElementById('results-container');
+        
+        const startButton = document.getElementById('start-btn');
+        const restartButton = document.getElementById('restart-btn');
+        
         const questionText = document.getElementById('question-text');
         const answerButtons = document.getElementById('answer-buttons');
-        const nextButton = document.getElementById('next-btn');
-        const resultsContainer = document.getElementById('results-container');
-        const quizBody = document.getElementById('quiz-body');
         const scoreText = document.getElementById('score-text');
-        const restartButton = document.getElementById('restart-btn');
+        const timerElement = document.getElementById('timer');
 
         let shuffledQuestions, currentQuestionIndex;
         let score = 0;
+        let questionsAnswered = 0;
+        let timerID;
 
-        function startGame() {
-            score = 0;
-            quizBody.classList.remove('hide');
+        function startQuiz() {
+            startContainer.classList.add('hide');
             resultsContainer.classList.add('hide');
-            nextButton.classList.add('hide');
+            quizContainer.classList.remove('hide');
+            timerElement.classList.remove('hide');
+            
+            score = 0;
+            questionsAnswered = 0;
             shuffledQuestions = questions.sort(() => Math.random() - 0.5);
             currentQuestionIndex = 0;
+            
+            startTimer();
             setNextQuestion();
+        }
+
+        function startTimer() {
+            let timeleft = 180; // 3 minutos
+            timerID = setInterval(() => {
+                if (timeleft <= 0) {
+                    clearInterval(timerID);
+                    endQuiz();
+                } else {
+                    timeleft--;
+                    const minutes = Math.floor(timeleft / 60);
+                    const seconds = timeleft % 60;
+                    timerElement.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                }
+            }, 1000);
         }
 
         function setNextQuestion() {
             resetState();
-            showQuestion(shuffledQuestions[currentQuestionIndex]);
+            if (currentQuestionIndex < shuffledQuestions.length) {
+                showQuestion(shuffledQuestions[currentQuestionIndex]);
+            } else {
+                endQuiz(); // Acabou as perguntas antes do tempo
+            }
         }
 
         function showQuestion(question) {
@@ -241,67 +228,63 @@
                 button.innerText = answer.text;
                 button.classList.add('btn');
                 if (answer.correct) {
-                    button.dataset.correct = answer.correct;
+                    button.dataset.correct = true;
                 }
-                button.addEventListener('click', selectAnswer);
+                button.addEventListener('click', selectAnswer, { once: true });
                 answerButtons.appendChild(button);
             });
         }
 
-        function resetState() {
-            nextButton.classList.add('hide');
-            while (answerButtons.firstChild) {
-                answerButtons.removeChild(answerButtons.firstChild);
-            }
-        }
-
         function selectAnswer(e) {
+            questionsAnswered++;
             const selectedButton = e.target;
             const correct = selectedButton.dataset.correct === 'true';
             if (correct) {
                 score++;
             }
-            setStatusClass(selectedButton, correct);
+            
             Array.from(answerButtons.children).forEach(button => {
                 setStatusClass(button, button.dataset.correct === 'true');
                 button.disabled = true;
             });
 
-            if (shuffledQuestions.length > currentQuestionIndex + 1) {
-                nextButton.classList.remove('hide');
-            } else {
-                showResults();
-            }
+            setTimeout(() => {
+                currentQuestionIndex++;
+                setNextQuestion();
+            }, 1200); // Espera 1.2 segundos para mostrar a próxima
         }
 
-        function setStatusClass(element, correct) {
-            clearStatusClass(element);
-            if (correct) {
+        function setStatusClass(element, isCorrect) {
+            if (isCorrect) {
                 element.classList.add('correct');
             } else {
                 element.classList.add('wrong');
             }
         }
 
-        function clearStatusClass(element) {
-            element.classList.remove('correct');
-            element.classList.remove('wrong');
+        function resetState() {
+            while (answerButtons.firstChild) {
+                answerButtons.removeChild(answerButtons.firstChild);
+            }
         }
 
-        function showResults() {
-            quizBody.classList.add('hide');
+        function endQuiz() {
+            clearInterval(timerID);
+            quizContainer.classList.add('hide');
             resultsContainer.classList.remove('hide');
-            scoreText.innerText = `Você acertou ${score} de ${questions.length} perguntas!`;
+            scoreText.innerText = `Você acertou ${score} de ${questionsAnswered} perguntas respondidas.`;
         }
 
-        nextButton.addEventListener('click', () => {
-            currentQuestionIndex++;
-            setNextQuestion();
-        });
+        function returnToStart() {
+            resultsContainer.classList.add('hide');
+            startContainer.classList.remove('hide');
+            timerElement.classList.add('hide');
+            timerElement.textContent = "03:00";
+        }
 
-        restartButton.addEventListener('click', startGame);
+        startButton.addEventListener('click', startQuiz);
+        restartButton.addEventListener('click', returnToStart);
 
-        startGame();
     </script>
 </body>
 </html>
