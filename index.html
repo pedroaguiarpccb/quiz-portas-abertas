@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz de Engenharia - Porsche Cup</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f0f2f5;
+            color: #1c1e21;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .quiz-container {
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px;
+            overflow: hidden;
+            text-align: center;
+        }
+        .quiz-header {
+            background-color: #d90000;
+            color: white;
+            padding: 20px;
+        }
+        .quiz-header img {
+            max-width: 150px;
+            margin-bottom: 10px;
+        }
+        .quiz-header h1 {
+            margin: 0;
+            font-size: 1.5em;
+        }
+        .quiz-body {
+            padding: 30px;
+        }
+        #question-container {
+            margin-bottom: 20px;
+        }
+        #question-text {
+            font-size: 1.2em;
+            font-weight: 500;
+            margin-bottom: 25px;
+        }
+        .btn-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+        }
+        .btn {
+            background-color: #e4e6eb;
+            border: 1px solid #ccd0d5;
+            border-radius: 8px;
+            padding: 15px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: background-color 0.2s, transform 0.2s;
+            text-align: left;
+        }
+        .btn:hover:not([disabled]) {
+            background-color: #dcdfe3;
+            transform: translateY(-2px);
+        }
+        .btn.correct {
+            background-color: #42b72a;
+            color: white;
+            border-color: #42b72a;
+        }
+        .btn.wrong {
+            background-color: #fa383e;
+            color: white;
+            border-color: #fa383e;
+        }
+        #controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+        }
+        #next-btn {
+            background-color: #1877f2;
+            color: white;
+            border: none;
+            padding: 10px 30px;
+            border-radius: 8px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        #next-btn.hide {
+            display: none;
+        }
+        #results-container {
+            padding: 30px;
+        }
+        #results-container h2 {
+            font-size: 1.8em;
+            margin-bottom: 15px;
+        }
+        #score-text {
+            font-size: 1.2em;
+            margin-bottom: 25px;
+        }
+        #restart-btn {
+            background-color: #1877f2;
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 8px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="quiz-container">
+        <div class="quiz-header">
+            <h1>Quiz de Engenharia Porsche Cup</h1>
+        </div>
+        
+        <div class="quiz-body" id="quiz-body">
+            <div id="question-container">
+                <p id="question-text">Pergunta vai aqui</p>
+                <div id="answer-buttons" class="btn-grid">
+                    <button class="btn">Resposta 1</button>
+                    <button class="btn">Resposta 2</button>
+                    <button class="btn">Resposta 3</button>
+                    <button class="btn">Resposta 4</button>
+                </div>
+            </div>
+            <div id="controls">
+                <button id="next-btn" class="hide">Próxima</button>
+            </div>
+        </div>
+
+        <div id="results-container" class="hide">
+            <h2>Quiz Finalizado!</h2>
+            <p id="score-text">Você acertou X de Y perguntas.</p>
+            <button id="restart-btn">Tentar Novamente</button>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                question: "Qual é a principal função da asa traseira em um carro de corrida, como os utilizados na Porsche Cup?",
+                answers: [
+                    { text: "Aumentar a 'downforce' (força descendente), melhorando a aderência nas curvas.", correct: true },
+                    { text: "Aumentar a velocidade do carro em retas.", correct: false },
+                    { text: "Servir de freio aerodinâmico para desacelerar o carro.", correct: false },
+                    { text: "Proteger o motor de detritos na pista.", correct: false }
+                ]
+            },
+            {
+                question: "O que a equipe de engenharia analisa em tempo real para prever falhas mecânicas?",
+                answers: [
+                    { text: "Apenas o tempo da volta.", correct: false },
+                    { text: "Dados de telemetria (pressão dos pneus, temperatura do óleo, etc.).", correct: true },
+                    { text: "O nível de combustível no tanque.", correct: false },
+                    { text: "O estado da carroceria em busca de arranhões.", correct: false }
+                ]
+            },
+            {
+                question: "Qual é a principal diferença entre os pneus 'slicks' (pista seca) e os 'wet' (chuva)?",
+                answers: [
+                    { text: "Os pneus de chuva são mais largos.", correct: false },
+                    { text: "Os pneus 'slicks' têm sulcos para drenar a água.", correct: false },
+                    { text: "Os pneus de chuva possuem sulcos para expulsar a água da pista.", correct: true },
+                    { text: "Os pneus de chuva são lisos e os 'slicks' têm ranhuras.", correct: false }
+                ]
+            },
+            {
+                question: "Qual é a configuração de motor e tração de um Porsche 911 GT3 Cup?",
+                answers: [
+                    { text: "Motor dianteiro, tração traseira.", correct: false },
+                    { text: "Motor central, tração traseira.", correct: false },
+                    { text: "Motor traseiro, tração dianteira.", correct: false },
+                    { text: "Motor traseiro, tração traseira.", correct: true }
+                ]
+            },
+            {
+                question: "O que a equipe busca ao aplicar cambagem negativa nas rodas?",
+                answers: [
+                    { text: "Melhorar a estabilidade em retas.", correct: false },
+                    { text: "Maximizar a área de contato do pneu com o asfalto durante as curvas.", correct: true },
+                    { text: "Diminuir o desgaste geral dos pneus.", correct: false },
+                    { text: "Reduzir o arrasto aerodinâmico.", correct: false }
+                ]
+            },
+            {
+                question: "Se um piloto reclama que o carro está 'saindo de frente' (understeer), qual ajuste a equipe pode fazer?",
+                answers: [
+                    { text: "Enrijecer a barra estabilizadora dianteira.", correct: false },
+                    { text: "Aumentar a pressão dos pneus dianteiros.", correct: false },
+                    { text: "Amaciar a barra estabilizadora dianteira ou enrijecer a traseira.", correct: true },
+                    { text: "Diminuir o ângulo da asa traseira.", correct: false }
+                ]
+            }
+        ];
+
+        const questionContainer = document.getElementById('question-container');
+        const questionText = document.getElementById('question-text');
+        const answerButtons = document.getElementById('answer-buttons');
+        const nextButton = document.getElementById('next-btn');
+        const resultsContainer = document.getElementById('results-container');
+        const quizBody = document.getElementById('quiz-body');
+        const scoreText = document.getElementById('score-text');
+        const restartButton = document.getElementById('restart-btn');
+
+        let shuffledQuestions, currentQuestionIndex;
+        let score = 0;
+
+        function startGame() {
+            score = 0;
+            quizBody.classList.remove('hide');
+            resultsContainer.classList.add('hide');
+            nextButton.classList.add('hide');
+            shuffledQuestions = questions.sort(() => Math.random() - 0.5);
+            currentQuestionIndex = 0;
+            setNextQuestion();
+        }
+
+        function setNextQuestion() {
+            resetState();
+            showQuestion(shuffledQuestions[currentQuestionIndex]);
+        }
+
+        function showQuestion(question) {
+            questionText.innerText = question.question;
+            question.answers.forEach(answer => {
+                const button = document.createElement('button');
+                button.innerText = answer.text;
+                button.classList.add('btn');
+                if (answer.correct) {
+                    button.dataset.correct = answer.correct;
+                }
+                button.addEventListener('click', selectAnswer);
+                answerButtons.appendChild(button);
+            });
+        }
+
+        function resetState() {
+            nextButton.classList.add('hide');
+            while (answerButtons.firstChild) {
+                answerButtons.removeChild(answerButtons.firstChild);
+            }
+        }
+
+        function selectAnswer(e) {
+            const selectedButton = e.target;
+            const correct = selectedButton.dataset.correct === 'true';
+            if (correct) {
+                score++;
+            }
+            setStatusClass(selectedButton, correct);
+            Array.from(answerButtons.children).forEach(button => {
+                setStatusClass(button, button.dataset.correct === 'true');
+                button.disabled = true;
+            });
+
+            if (shuffledQuestions.length > currentQuestionIndex + 1) {
+                nextButton.classList.remove('hide');
+            } else {
+                showResults();
+            }
+        }
+
+        function setStatusClass(element, correct) {
+            clearStatusClass(element);
+            if (correct) {
+                element.classList.add('correct');
+            } else {
+                element.classList.add('wrong');
+            }
+        }
+
+        function clearStatusClass(element) {
+            element.classList.remove('correct');
+            element.classList.remove('wrong');
+        }
+
+        function showResults() {
+            quizBody.classList.add('hide');
+            resultsContainer.classList.remove('hide');
+            scoreText.innerText = `Você acertou ${score} de ${questions.length} perguntas!`;
+        }
+
+        nextButton.addEventListener('click', () => {
+            currentQuestionIndex++;
+            setNextQuestion();
+        });
+
+        restartButton.addEventListener('click', startGame);
+
+        startGame();
+    </script>
+</body>
+</html>
